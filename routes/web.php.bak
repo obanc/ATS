@@ -1,0 +1,21 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+# default statement above, new added below
+
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+#default route above, new below
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return auth()->user();
+    });
+    // Add more protected routes here
+});
